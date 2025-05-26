@@ -42,7 +42,7 @@ Super-loops are simple but unreliable for real-time systems, while an RTOS provi
 
 
 **Example sequential super-loop:**
-```c
+``c
 void main() {
     while (1) {
         task1();  // e.g., LED blink
@@ -53,7 +53,7 @@ void main() {
 
 
 **Example multi-task RTOS system:**
-```c
+``c
 void task1(void *pvParam) {  // High-priority task (e.g., LED blink)
     while (1) {
         toggle_led();
