@@ -41,35 +41,39 @@ If both blink and print functionality were written inside a single infinite loop
 Super-loops are simple but unreliable for real-time systems, while an RTOS provides deterministic scheduling. This would be essential for space applications where missed deadlines can be catastrophic.
 
 
-Example sequential super-loop: 
+**Example sequential super-loop:**
+```c
 void main() {
-    while(1) {
+    while (1) {
         task1();  // e.g., LED blink
         task2();  // e.g., serial print
         task3();  // e.g., sensor read
     }
 }
 
-Example Multi-Task RTOS:
+
+**Example multi-task RTOS system:**
+```c
 void task1(void *pvParam) {  // High-priority task (e.g., LED blink)
-    while(1) {
+    while (1) {
         toggle_led();
-        vTaskDelay(250 / portTICK_PERIOD_MS);  // Non-blocking delay
+        vTaskDelay(250 / portTICK_PERIOD_MS);
     }
 }
 
 void task2(void *pvParam) {  // Low-priority task (e.g., serial print)
-    while(1) {
+    while (1) {
         printf("Telemetry: OK\n");
         vTaskDelay(10000 / portTICK_PERIOD_MS);
     }
 }
 
 void main() {
-    xTaskCreate(task1, "blink", 1024, NULL, 2, NULL);  // Higher priority
-    xTaskCreate(task2, "print", 1024, NULL, 1, NULL);  // Lower priority
+    xTaskCreate(task1, "blink", 1024, NULL, 2, NULL);
+    xTaskCreate(task2, "print", 1024, NULL, 1, NULL);
     vTaskStartScheduler();
 }
+
 ---
 
 ## Experimentation
